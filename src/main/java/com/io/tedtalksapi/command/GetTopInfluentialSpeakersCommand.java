@@ -35,15 +35,18 @@ public class GetTopInfluentialSpeakersCommand implements Command<List<Map<String
             // Add derived fields using utility
             map.put("rating", DataFormatterUtil.mapScoreToStars(score));
 
-            // Format big numbers
+            // Format big numbers for totalViews
             Number viewNum = (Number) r.get("totalViews");
             BigInteger views = (viewNum instanceof BigInteger) ? (BigInteger) viewNum
                     : BigInteger.valueOf(viewNum.longValue());
+            map.put("totalViews", DataFormatterUtil.formatBigInteger(views));
             map.put("viewCount", DataFormatterUtil.formatBigInteger(views));
 
+            // Format big numbers for totalLikes
             Number likeNum = (Number) r.get("totalLikes");
             BigInteger likes = (likeNum instanceof BigInteger) ? (BigInteger) likeNum
                     : BigInteger.valueOf(likeNum.longValue());
+            map.put("totalLikes", DataFormatterUtil.formatBigInteger(likes));
             map.put("likeCount", DataFormatterUtil.formatBigInteger(likes));
 
             enrichedResults.add(map);

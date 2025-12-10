@@ -3,6 +3,8 @@ package com.io.tedtalksapi.controller;
 import com.io.tedtalksapi.response.ApiResponse;
 import com.io.tedtalksapi.repository.TedTalksRecordRepository;
 import com.io.tedtalksapi.mapper.TedTalkEntityMapper;
+
+import java.util.Map;
 import java.util.UUID;
 
 import com.io.tedtalksapi.request.TedTalk;
@@ -29,7 +31,7 @@ public class TedTalksController {
 
     // endpoint to identify influential TedTalk speakers
     @GetMapping("/speaker/influential")
-    public ResponseEntity<ApiResponse<List<java.util.Map<String, Object>>>> getTopInfluentialSpeakers(
+    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getTopInfluentialSpeakers(
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam(defaultValue = "1") int minTalks) {
         log.info("Request to get top influential speakers with limit: {}, minTalks: {}", limit, minTalks);

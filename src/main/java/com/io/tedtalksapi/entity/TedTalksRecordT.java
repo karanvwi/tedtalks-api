@@ -25,11 +25,11 @@ public class TedTalksRecordT {
     @Size(max = 200, message = "Title cannot exceed 200 characters")
     private String title;
 
-    // @NotBlank(message = "Author is required")
+    @NotBlank(message = "Author is required")
     @Size(max = 100, message = "Author name cannot exceed 100 characters")
     private String author = "Not Provided";
 
-    // @NotNull(message = "Released date is required")
+    @NotNull(message = "Released date is required")
     private LocalDate releasedDate;
 
     @NotNull(message = "View count is required")

@@ -54,11 +54,15 @@ public class CsvImportService {
                 try {
                     TedTalksRecordT record = new TedTalksRecordT();
                     record.setTitle(row[0].trim());
-                    record.setAuthor(row[1].trim());
+
+                    // Set default author if not provided
+                    String author = row[1].trim();
+                    if (author == null || author.isEmpty()) {
+                        author = "Not Provided";
+                    }
+                    record.setAuthor(author);
 
                     // Date parsing: "December 2021" -> YearMonth -> LocalDate (first day)
-                    // The default might need to handle empty or different formats if any.
-                    // Assuming valid format based on head command check.
                     YearMonth ym = YearMonth.parse(row[2].trim(), dateFormatter);
                     if (ym.getYear() < 1984) {
                         log.warn("Skipping row with invalid/pre-TED year ({}): {}", ym, String.join(",", row));
@@ -79,6 +83,7 @@ public class CsvImportService {
                         log.warn("Converted negative likes to absolute value for row: {}", String.join(",", row));
                     }
 
+                    // Set views and likes to 0 for future release dates
                     if (record.getReleasedDate().isAfter(LocalDate.now())) {
                         views = BigInteger.ZERO;
                         likes = BigInteger.ZERO;
