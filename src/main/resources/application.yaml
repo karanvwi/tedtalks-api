@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: TedTalks API
+  profiles:
+    active: local
