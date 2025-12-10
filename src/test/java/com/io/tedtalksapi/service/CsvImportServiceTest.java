@@ -24,15 +24,4 @@ class CsvImportServiceTest {
         csvImportService.importCsvData();
         verify(repository, never()).saveAll(any());
     }
-
-    // Since loading actual file in unit test might be tricky without context,
-    // we can test the logic if we could inject the reader, but the service creates
-    // it internally.
-    // For now, we will trust the integration verifies the parsing, and this test
-    // verifies the "skip" logic.
-    // Creating a full file-based test requires mocking ClassPathResource or
-    // refactoring the service.
-    // Given constraints, I will rely on the "Skip" test and maybe a small "happy
-    // path" if I can mock the resource.
-
 }

@@ -2,10 +2,34 @@ package com.io.tedtalksapi.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.NavigableMap;
 
 @Slf4j
 public class DataFormatterUtil {
+
+    private static final NavigableMap<BigDecimal, String> SUFFIXES = new java.util.TreeMap<>();
+    private static final NavigableMap<BigInteger, Double> STAR_THRESHOLDS = new java.util.TreeMap<>();
+
+    static {
+        STAR_THRESHOLDS.put(BigInteger.valueOf(5_000_000), 5.0);
+        STAR_THRESHOLDS.put(BigInteger.valueOf(4_000_000), 4.5);
+        STAR_THRESHOLDS.put(BigInteger.valueOf(3_000_000), 4.0);
+        STAR_THRESHOLDS.put(BigInteger.valueOf(2_000_000), 3.5);
+        STAR_THRESHOLDS.put(BigInteger.valueOf(1_000_000), 3.0);
+        STAR_THRESHOLDS.put(BigInteger.valueOf(500_000), 2.5);
+    }
+
+    static {
+        // Precomputed thresholds
+        SUFFIXES.put(new java.math.BigDecimal("1E18"), "Qn"); // Quintillion
+        SUFFIXES.put(new java.math.BigDecimal("1E15"), "Qd"); // Quadrillion
+        SUFFIXES.put(new java.math.BigDecimal("1E12"), "T"); // Trillion
+        SUFFIXES.put(new java.math.BigDecimal("1E9"), "B"); // Billion
+        SUFFIXES.put(new java.math.BigDecimal("1E6"), "M"); // Million
+        SUFFIXES.put(new java.math.BigDecimal("1E3"), "K"); // Thousand
+    }
 
     /**
      * Ensures that a view or like count is non-negative.
@@ -46,27 +70,7 @@ public class DataFormatterUtil {
         }
     }
 
-    private static final java.util.NavigableMap<java.math.BigDecimal, String> SUFFIXES = new java.util.TreeMap<>();
-    private static final java.util.NavigableMap<BigInteger, Double> STAR_THRESHOLDS = new java.util.TreeMap<>();
 
-    static {
-        STAR_THRESHOLDS.put(BigInteger.valueOf(5_000_000), 5.0);
-        STAR_THRESHOLDS.put(BigInteger.valueOf(4_000_000), 4.5);
-        STAR_THRESHOLDS.put(BigInteger.valueOf(3_000_000), 4.0);
-        STAR_THRESHOLDS.put(BigInteger.valueOf(2_000_000), 3.5);
-        STAR_THRESHOLDS.put(BigInteger.valueOf(1_000_000), 3.0);
-        STAR_THRESHOLDS.put(BigInteger.valueOf(500_000), 2.5);
-    }
-
-    static {
-        // Precomputed thresholds
-        SUFFIXES.put(new java.math.BigDecimal("1E18"), "Qn"); // Quintillion
-        SUFFIXES.put(new java.math.BigDecimal("1E15"), "Qd"); // Quadrillion
-        SUFFIXES.put(new java.math.BigDecimal("1E12"), "T"); // Trillion
-        SUFFIXES.put(new java.math.BigDecimal("1E9"), "B"); // Billion
-        SUFFIXES.put(new java.math.BigDecimal("1E6"), "M"); // Million
-        SUFFIXES.put(new java.math.BigDecimal("1E3"), "K"); // Thousand
-    }
 
     /**
      * Returns a star rating from 1.0 to 5.0 based on BigInteger score.

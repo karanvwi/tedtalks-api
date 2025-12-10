@@ -2,7 +2,6 @@ package com.io.tedtalksapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.io.tedtalksapi.request.TedTalk;
-import com.io.tedtalksapi.service.TedTalksService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,9 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TedTalksControllerTest {
 
     private MockMvc mockMvc;
-
-    @Mock
-    private TedTalksService tedTalksService;
 
     @Mock
     private TedTalksRecordRepository repository;
@@ -115,25 +111,11 @@ class TedTalksControllerTest {
     }
 
     @Test
-    void updateTedTalk_InvalidData_ShouldReturnBadRequest() throws Exception {
-        // If we want to test validation with standalone setup, it's manually triggered
-        // unless we configure validator.
-        // Standalone setup doesn't always run bean validation automatically unless
-        // Validator is set.
-        // However, we can test that the method is called.
-        // Let's rely on basic path mapping here.
-        // Or if we want to confirm @Valid is processed, we typically need Integration
-        // Test or proper Validator setup.
-        // For now, let's keep it simple. If we want to test validation failure we can
-        // skip
-        // or add minimal validation config.
-    }
-
-    @Test
     void search_ShouldReturnResults() throws Exception {
         String query = "test";
-        // Mock service
-        when(tedTalksService.search(query)).thenReturn(java.util.Collections.emptyList());
+        // Mock repository for command execution
+        when(repository.findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(query, query))
+                .thenReturn(java.util.Collections.emptyList());
 
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/tedtalks/search")
                 .param("value", query))
